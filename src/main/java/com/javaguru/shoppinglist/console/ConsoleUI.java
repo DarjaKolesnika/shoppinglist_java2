@@ -1,7 +1,11 @@
-package ui;
+package com.javaguru.shoppinglist.console;
 
+import com.javaguru.shoppinglist.database.ProductRepository;
+import com.javaguru.shoppinglist.domain.Category;
 import com.javaguru.shoppinglist.domain.Product;
 import com.javaguru.shoppinglist.service.ProductService;
+import com.javaguru.shoppinglist.service.ProductValidationService;
+
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,7 +14,10 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class ConsoleUI {
-    private ProductService productService = new ProductService();
+    private ProductRepository repository = new ProductRepository();
+    private ProductValidationService validationService = new ProductValidationService();
+
+    private ProductService productService = new ProductService(repository, validationService);
 
     public void execute() {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -66,19 +73,19 @@ public class ConsoleUI {
         int userInputCategory = Integer.parseInt(reader.readLine());
         switch (userInputCategory) {
             case 1:
-                product.setCategory(Product.Category.FRUITS);
+                product.setCategory(Category.FRUITS);
                 break;
             case 2:
-                product.setCategory(Product.Category.VEGETABLES);
+                product.setCategory(Category.VEGETABLES);
                 break;
             case 3:
-                product.setCategory(Product.Category.DAIRY);
+                product.setCategory(Category.DAIRY);
                 break;
             case 4:
-                product.setCategory(Product.Category.ALCOHOL);
+                product.setCategory(Category.ALCOHOL);
                 break;
             case 5:
-                product.setCategory(Product.Category.MEAT);
+                product.setCategory(Category.MEAT);
                 break;
             default:
                 System.out.println("Please enter the correct option");
@@ -142,4 +149,5 @@ public class ConsoleUI {
         productService.deleteProduct(id);
     }
 }
+
 

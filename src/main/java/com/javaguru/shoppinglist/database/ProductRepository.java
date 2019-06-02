@@ -1,8 +1,10 @@
-package database;
+package com.javaguru.shoppinglist.database;
 
 import com.javaguru.shoppinglist.domain.Product;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ProductRepository {
@@ -22,5 +24,5 @@ public class ProductRepository {
     public void delete(Long id) {
         products.remove(id);
     }
-}
 
+}

@@ -12,6 +12,13 @@ public class Product {
     private BigDecimal discount;
     private String description;
 
+
+    private Category category;
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     public Long getId() {
         return id;
     }
@@ -52,20 +59,6 @@ public class Product {
         this.discount = discount;
     }
 
-
-    public enum Category {
-        FRUITS,
-        VEGETABLES,
-        DAIRY,
-        ALCOHOL,
-        MEAT
-    }
-
-    private Category category;
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
 
     public void printInfoAboutProduct() {
         System.out.println("Actual information:");

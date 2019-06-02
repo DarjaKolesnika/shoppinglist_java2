@@ -9,6 +9,7 @@ public class ProductDiscountValidationRule implements ProductValidation{
     public void validate(Product product) {
         BigDecimal biggestDiscount = new BigDecimal(80);
         BigDecimal minPriceForDiscount = new BigDecimal(20);
+        checkNotNull(product);
         if (product.getDiscount().compareTo(biggestDiscount) == 1) {
             throw new ValidationException("Product discount must not exceed 80%");
         }

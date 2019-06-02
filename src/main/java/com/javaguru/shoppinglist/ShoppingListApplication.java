@@ -1,6 +1,6 @@
 package com.javaguru.shoppinglist;
 
-import ui.ConsoleUI;
+import com.javaguru.shoppinglist.console.ConsoleUI;
 
 class ShoppingListApplication {
 

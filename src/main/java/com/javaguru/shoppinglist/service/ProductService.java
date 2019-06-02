@@ -1,17 +1,21 @@
 package com.javaguru.shoppinglist.service;
 
+import com.javaguru.shoppinglist.database.ProductRepository;
 import com.javaguru.shoppinglist.domain.Product;
 
-import database.ProductRepository;
-
 public class ProductService {
-    private ProductRepository repository = new ProductRepository();
-    private ProductValidationService validationService = new ProductValidationService();
+    private ProductRepository repository;
+    private ProductValidationService validationService;
+
+    public ProductService (ProductRepository productRepository, ProductValidationService productValidationService) {
+        this.repository = productRepository;
+        this.validationService = productValidationService;
+    }
 
     public Long createProduct(Product product) {
         validationService.validate(product);
-        repository.insert(product);
-        return product.getId();
+        Product createdProduct = repository.insert(product);
+        return createdProduct.getId();
     }
 
     public Product findProductById(Long id) {
