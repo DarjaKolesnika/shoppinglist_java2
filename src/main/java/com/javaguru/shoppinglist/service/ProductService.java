@@ -3,6 +3,9 @@ package com.javaguru.shoppinglist.service;
 import com.javaguru.shoppinglist.database.ProductRepository;
 import com.javaguru.shoppinglist.domain.Product;
 
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
 public class ProductService {
     private ProductRepository repository;
     private ProductValidationService validationService;
@@ -19,7 +22,8 @@ public class ProductService {
     }
 
     public Product findProductById(Long id) {
-        return repository.findProductById(id);
+        return repository.findProductById(id)
+                .orElseThrow(() -> new NoSuchElementException("Product not found, id: " + id));
     }
 
     public Product editProduct(Product product) {

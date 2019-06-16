@@ -11,9 +11,21 @@ public class Product {
     private BigDecimal price;
     private BigDecimal discount;
     private String description;
-
-
     private Category category;
+
+    public Product() {
+
+    }
+    public Product(String name, BigDecimal price, BigDecimal discount, String description) {
+        this.name = name;
+        this.price = price;
+        this.discount = discount;
+        this.description = description;
+    }
+
+    public Product(Product other) {
+        this(other.getName(), other.getPrice(), other.getDiscount(), other.getDescription());
+    }
 
     public void setCategory(Category category) {
         this.category = category;
@@ -60,11 +72,11 @@ public class Product {
     }
 
 
-    public void printInfoAboutProduct() {
-        System.out.println("Actual information:");
-        System.out.println("name: " + name + ", category: " + category + ", description: " + description + ", regular price: "
+    public String printInfoAboutProduct() {
+       return "Actual information(" +
+        "name: " + name + ", category: " + category + ", description: " + description + ", regular price: "
                 + price + ", discount: " + discount + "%, current price: " +
-                price.subtract(price.multiply(discount.movePointLeft(2))).setScale(2, RoundingMode.CEILING));
+                price.subtract(price.multiply(discount.movePointLeft(2))).setScale(2, RoundingMode.CEILING) + ")";
     }
 
     @Override

@@ -1,10 +1,8 @@
 package com.javaguru.shoppinglist.console;
 
-import com.javaguru.shoppinglist.database.ProductRepository;
 import com.javaguru.shoppinglist.domain.Category;
 import com.javaguru.shoppinglist.domain.Product;
 import com.javaguru.shoppinglist.service.ProductService;
-import com.javaguru.shoppinglist.service.ProductValidationService;
 
 
 import java.io.BufferedReader;
@@ -14,10 +12,12 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class ConsoleUI {
-    private ProductRepository repository = new ProductRepository();
-    private ProductValidationService validationService = new ProductValidationService();
 
-    private ProductService productService = new ProductService(repository, validationService);
+    private ProductService productService;
+
+    public ConsoleUI(ProductService productService) {
+        this.productService = productService;
+    }
 
     public void execute() {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -45,7 +45,11 @@ public class ConsoleUI {
                     case 5:
                         return;
                 }
-            } catch (Exception e) {
+            }
+            catch (NumberFormatException e) {
+                System.out.println("Incorrect information, please retry");
+            }
+            catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         }
@@ -100,7 +104,7 @@ public class ConsoleUI {
         System.out.println("Enter product id: ");
         Long id = Long.parseLong(reader.readLine());
         Product product = productService.findProductById(id);
-        product.printInfoAboutProduct();
+        System.out.println(product.printInfoAboutProduct());
     }
 
     private void editProduct() throws IOException {
@@ -108,6 +112,9 @@ public class ConsoleUI {
         System.out.println("Enter product id: ");
         Long id = Long.parseLong(reader.readLine());
         Product product = productService.findProductById(id);
+        Product copyOfProduct = new Product(product);
+        copyOfProduct.setName("copy");
+
         System.out.println("Please select an operation. Press 1 for editing product name, 2 for editing product price, " +
                 "3 for editing or adding discount, 4 for editing description, 5 for exit");
         int userInput = Integer.parseInt(reader.readLine());
@@ -115,31 +122,38 @@ public class ConsoleUI {
             case 1:
                 System.out.println("Enter new product name: ");
                 String name = reader.readLine();
+                copyOfProduct.setName(name);
+                productService.editProduct(copyOfProduct);
                 product.setName(name);
-                product.printInfoAboutProduct();
+                System.out.println(product.printInfoAboutProduct());
                 break;
             case 2:
                 System.out.println("Enter new product price: ");
                 BigDecimal newPrice = new BigDecimal(reader.readLine());
+                copyOfProduct.setPrice(newPrice.setScale(2, RoundingMode.CEILING));
+                productService.editProduct(copyOfProduct);
                 product.setPrice(newPrice.setScale(2, RoundingMode.CEILING));
-                product.printInfoAboutProduct();
+                System.out.println(product.printInfoAboutProduct());
                 break;
             case 3:
                 System.out.println("Enter new product discount: ");
                 BigDecimal newDiscount = new BigDecimal(reader.readLine());
+                copyOfProduct.setDiscount(newDiscount.setScale(1, RoundingMode.CEILING));
+                productService.editProduct(copyOfProduct);
                 product.setDiscount(newDiscount.setScale(1, RoundingMode.CEILING));
-                product.printInfoAboutProduct();
+                System.out.println(product.printInfoAboutProduct());
                 break;
             case 4:
                 System.out.println("Enter new product description: ");
                 String newDescription = reader.readLine();
+                copyOfProduct.setDescription(newDescription);
+                productService.editProduct(copyOfProduct);
                 product.setDescription(newDescription);
-                product.printInfoAboutProduct();
+                System.out.println(product.printInfoAboutProduct());
                 break;
             case 5:
                 return;
         }
-        productService.editProduct(product);
     }
 
     private void deleteProduct() throws IOException {

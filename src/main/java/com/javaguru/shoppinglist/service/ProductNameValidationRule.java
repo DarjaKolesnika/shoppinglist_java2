@@ -10,11 +10,11 @@ public class ProductNameValidationRule implements ProductValidation {
 
         checkNotNull(product);
 
-        if (product.getName().length() < MIN_NUMBER_OF_SYMBOLS || product.getName().length() > MAX_NUMBER_OF_SYMBOLS) {
+        if (product.getName() == null) {
+            throw new ValidationException("Product name must not be null");
+        } if (product.getName().length() < MIN_NUMBER_OF_SYMBOLS || product.getName().length() > MAX_NUMBER_OF_SYMBOLS) {
             throw new ValidationException("Product name does not match the requirements – " +
                     "it should not contain less than 3 and more than 25 symbols");
-        } else if (product.getName() == null) {
-            throw new ValidationException("Product name must not be null");
         }
     }
 }
