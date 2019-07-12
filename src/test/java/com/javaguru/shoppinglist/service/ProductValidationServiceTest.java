@@ -9,15 +9,12 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.assertj.core.api.Assertions.assertThat;
-
 @RunWith(MockitoJUnitRunner.class)
 
 public class ProductValidationServiceTest {
@@ -41,7 +38,7 @@ public class ProductValidationServiceTest {
         Set<ProductValidation> rules = new HashSet<>();
         rules.add(productDiscountValidationRule);
         rules.add(productNameValidationRule);
-        rules.add(productUniquenessValidationRule);
+      //  rules.add(productUniquenessValidationRule);
         rules.add(productPriceValidationRule);
         victim = new ProductValidationService(rules);
     }
@@ -51,7 +48,7 @@ public class ProductValidationServiceTest {
         victim.validate(input);
         verify(productDiscountValidationRule).validate(captor.capture());
         verify(productNameValidationRule).validate(captor.capture());
-        verify(productUniquenessValidationRule).validate(captor.capture());
+      //  verify(productUniquenessValidationRule).validate(captor.capture());
         verify(productPriceValidationRule).validate(captor.capture());
 
         List<Product> listOfResults = captor.getAllValues();
@@ -63,7 +60,7 @@ public class ProductValidationServiceTest {
         victim.validate(input);
         verify(productDiscountValidationRule).validate(captor.capture());
         verify(productNameValidationRule).validate(captor.capture());
-        verify(productUniquenessValidationRule).validate(captor.capture());
+       // verify(productUniquenessValidationRule).validate(captor.capture());
         verify(productPriceValidationRule).validate(captor.capture());
 
         List<Product> listOfResults = captor.getAllValues();

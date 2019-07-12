@@ -7,10 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
-
 @RunWith(MockitoJUnitRunner.class)
 
 public class ProductValidationTest {

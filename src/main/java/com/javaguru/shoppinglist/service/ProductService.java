@@ -1,18 +1,25 @@
 package com.javaguru.shoppinglist.service;
 
-import com.javaguru.shoppinglist.database.ProductRepository;
+import com.javaguru.shoppinglist.database.RepositoryInterface;
 import com.javaguru.shoppinglist.domain.Product;
-
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
+@Service
 public class ProductService {
-    private ProductRepository repository;
-    private ProductValidationService validationService;
+    private final RepositoryInterface repository;
+    private final ProductValidationService validationService;
+    private final ProductValidationServiceForEdit validationServiceForEdit;
 
-    public ProductService (ProductRepository productRepository, ProductValidationService productValidationService) {
+    public ProductService(RepositoryInterface productRepository,
+            ProductValidationService validationService, @Qualifier("validation for edit") ProductValidationServiceForEdit
+               validationServiceForEdit) {
         this.repository = productRepository;
-        this.validationService = productValidationService;
+        this.validationService = validationService;
+        this.validationServiceForEdit = validationServiceForEdit;
     }
 
     public Long createProduct(Product product) {
@@ -26,13 +33,34 @@ public class ProductService {
                 .orElseThrow(() -> new NoSuchElementException("Product not found, id: " + id));
     }
 
-    public Product editProduct(Product product) {
-        validationService.validate(product);
-        return product;
+    public Product editProduct(Product product, String userOption, String newFieldInfo) {
+        Product copyOfProduct = new Product(product);
+        switch (userOption) {
+            case "1":
+                copyOfProduct.setName(newFieldInfo);
+                validationService.validate(copyOfProduct);
+                repository.saveEditedProduct(product.getId(), copyOfProduct);
+                break;
+            case "2":
+                copyOfProduct.setPrice(new BigDecimal(newFieldInfo).setScale(2, RoundingMode.CEILING));
+                validationServiceForEdit.validate(copyOfProduct);
+                repository.saveEditedProduct(product.getId(), copyOfProduct);
+                break;
+            case "3":
+                copyOfProduct.setDiscount(new BigDecimal(newFieldInfo).setScale(1, RoundingMode.CEILING));
+                validationServiceForEdit.validate(copyOfProduct);
+                repository.saveEditedProduct(product.getId(), copyOfProduct);
+                break;
+            case "4":
+                copyOfProduct.setDescription(newFieldInfo);
+                validationServiceForEdit.validate(copyOfProduct);
+                repository.saveEditedProduct(product.getId(), copyOfProduct);
+                break;
+        }
+        return copyOfProduct;
     }
 
-    public void deleteProduct(Long id) {
-        repository.delete(id);
+    public void deleteProduct(Product product) {
+        repository.delete(product);
     }
-
 }

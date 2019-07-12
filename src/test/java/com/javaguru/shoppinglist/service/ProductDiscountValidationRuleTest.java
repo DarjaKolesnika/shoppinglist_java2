@@ -1,14 +1,11 @@
 package com.javaguru.shoppinglist.service;
 
 import com.javaguru.shoppinglist.domain.Product;
-
 import org.assertj.core.api.Assertions;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
 import java.math.BigDecimal;
-
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.times;
@@ -16,7 +13,6 @@ import static org.mockito.Mockito.verify;
 import org.junit.runner.RunWith;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-
 @RunWith(MockitoJUnitRunner.class)
 
 public class ProductDiscountValidationRuleTest {
@@ -26,6 +22,7 @@ public class ProductDiscountValidationRuleTest {
     @Spy
     private ProductDiscountValidationRule victim = new ProductDiscountValidationRule();
     private Product input;
+
     @Test
     public void shouldThrowProductValidationExceptionIfProductPriceIsUnder20() {
         input = product(new BigDecimal(5));

@@ -1,14 +1,12 @@
 package com.javaguru.shoppinglist.service;
 
-import com.javaguru.shoppinglist.database.ProductRepository;
+import com.javaguru.shoppinglist.database.RepositoryInterface;
 import com.javaguru.shoppinglist.domain.Product;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-
 import static org.junit.Assert.*;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
@@ -16,10 +14,11 @@ import static org.mockito.Mockito.when;
 
 public class ProductUniquenessValidationRuleTest {
     @Mock
-    private ProductRepository productRepository;
+    private RepositoryInterface productRepository;
     @InjectMocks
     private ProductUniquenessValidationRule victim;
     private Product product = product();
+
     @Test
     public void shouldThrowException() {
         when(productRepository.existsByName(product.getName()))
@@ -43,3 +42,4 @@ public class ProductUniquenessValidationRuleTest {
         return product;
     }
 }
+

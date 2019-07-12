@@ -1,12 +1,15 @@
 package com.javaguru.shoppinglist.database;
 
 import com.javaguru.shoppinglist.domain.Product;
-
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class ProductRepository {
+@Repository
+@Profile({"map"})
+public class ProductRepository implements RepositoryInterface {
     private Long productIdSequence = 0L;
     private Map<Long, Product> products = new HashMap<>();
 
@@ -16,8 +19,12 @@ public class ProductRepository {
         return product;
     }
 
-    public void delete(Long id) {
-        products.remove(id);
+    public void saveEditedProduct(Long id, Product product) {
+        products.put(id, product);
+    }
+
+    public void delete(Product product) {
+        products.remove(product.getId());
     }
 
     public Optional<Product> findProductById(Long id) {
@@ -27,11 +34,5 @@ public class ProductRepository {
     public boolean existsByName(String name) {
         return products.values().stream()
                 .anyMatch(product -> product.getName().equalsIgnoreCase(name));
-    }
-
-    public Optional<Product> findProductByName(String name) {
-        return products.values().stream()
-                .filter(product -> product.getName().equalsIgnoreCase(name))
-                .findFirst();
     }
 }

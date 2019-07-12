@@ -9,16 +9,12 @@ import org.junit.rules.ExpectedException;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
-
 import static org.junit.Assert.*;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
-
-
 @RunWith(MockitoJUnitRunner.class)
 
 public class ProductNameValidationRuleTest {

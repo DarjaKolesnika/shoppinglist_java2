@@ -1,34 +1,56 @@
 package com.javaguru.shoppinglist.domain;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
-
+@Entity
+@Table(name = "products")
 public class Product {
 
-    private Long id;
-    private String name;
-    private BigDecimal price;
-    private BigDecimal discount;
-    private String description;
-    private Category category;
+        @Id
+        @Column(name = "id")
+        @GeneratedValue(strategy = GenerationType.AUTO)
+        private Long id;
+
+        @Column(name = "name")
+        private String name;
+
+        @Column(name = "description")
+        private String description;
+
+        @Column(name = "price")
+        private BigDecimal price;
+
+        @Column(name = "discount")
+        private BigDecimal discount;
+
+        @Enumerated (EnumType.STRING)
+        @Column (name = "category", columnDefinition = "ENUM")
+        private Category category;
 
     public Product() {
 
     }
-    public Product(String name, BigDecimal price, BigDecimal discount, String description) {
+    public Product(String name, BigDecimal price, BigDecimal discount, String description, Long id, Category category) {
         this.name = name;
         this.price = price;
         this.discount = discount;
         this.description = description;
+        this.id = id;
+        this.category = category;
     }
 
     public Product(Product other) {
-        this(other.getName(), other.getPrice(), other.getDiscount(), other.getDescription());
+        this(other.getName(), other.getPrice(), other.getDiscount(), other.getDescription(), other.getId(), other.getCategory());
     }
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Category getCategory() {
+        return category;
     }
 
     public Long getId() {

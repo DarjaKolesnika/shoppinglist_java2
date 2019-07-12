@@ -1,6 +1,6 @@
 package com.javaguru.shoppinglist.service;
 
-import com.javaguru.shoppinglist.database.ProductRepository;
+import com.javaguru.shoppinglist.database.RepositoryInterface;
 import com.javaguru.shoppinglist.domain.Product;
 
 import org.junit.Test;
@@ -10,32 +10,28 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-
 import java.math.BigDecimal;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
-
-
 import static org.junit.Assert.*;
-
 @RunWith(MockitoJUnitRunner.class)
 
 public class ProductServiceTest {
 
     @Mock
-    private ProductRepository repository;
+    private RepositoryInterface repository;
     @Mock
     private ProductValidationService productValidationService;
     @InjectMocks
     private ProductService victim;
     @Captor
     private ArgumentCaptor<Product> productCaptor;
+
     @Test
     public void shouldCreateProductSuccessfully() {
         Product product = product();
@@ -57,8 +53,8 @@ public class ProductServiceTest {
     @Test
     public void shouldDeleteProduct() {
         long productId = 1L;
-        victim.deleteProduct(1L);
-        verify(repository, times(1)).delete(productId);
+        victim.deleteProduct(victim.findProductById(1L));
+        verify(repository, times(1)).delete(victim.findProductById(productId));
     }
 
     @Test

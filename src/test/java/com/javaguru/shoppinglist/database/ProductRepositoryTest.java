@@ -1,5 +1,5 @@
 package com.javaguru.shoppinglist.database;
-
+/*
 import com.javaguru.shoppinglist.domain.Product;
 
 import static org.junit.Assert.*;
@@ -15,7 +15,6 @@ import static org.mockito.Mockito.verify;
 import org.junit.runner.RunWith;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-
 @RunWith(MockitoJUnitRunner.class)
 
 public class ProductRepositoryTest {
@@ -76,3 +75,4 @@ public class ProductRepositoryTest {
         return product;
     }
 }
+*/
