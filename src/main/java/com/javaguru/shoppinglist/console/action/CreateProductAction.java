@@ -4,7 +4,6 @@ import com.javaguru.shoppinglist.domain.Category;
 import com.javaguru.shoppinglist.domain.Product;
 import com.javaguru.shoppinglist.service.ProductService;
 import com.javaguru.shoppinglist.service.ValidationException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -16,7 +15,7 @@ import java.math.RoundingMode;
 @Component
 public class CreateProductAction implements Action {
 
-    private static final String ACTION_NAME = "Create Product";
+    private static final String ACTION_NAME = "Create product";
 
     private final ProductService productService;
 
@@ -65,12 +64,9 @@ public class CreateProductAction implements Action {
                 System.out.println("Please enter the correct option");
         }
 
-        productService.createProduct(product);
-        System.out.println("Your product was successfully added to database, id: " + product.getId());
-
         try {
             Long response = productService.createProduct(product);
-            System.out.println("Response: " + response);
+            System.out.println("Your product was successfully added to database, id: " + response);
         } catch (ValidationException e) {
             System.out.println(e.getMessage());
         }

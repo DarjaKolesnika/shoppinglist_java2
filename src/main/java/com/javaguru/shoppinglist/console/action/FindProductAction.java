@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 
 @Component
 public class FindProductAction implements Action {
-    private static final String ACTION_NAME = "Find by ID";
+    private static final String ACTION_NAME = "Find product by ID";
 
     private final ProductService productService;
 

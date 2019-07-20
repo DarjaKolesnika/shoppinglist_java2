@@ -11,7 +11,7 @@ import java.io.InputStreamReader;
 
 @Component
 public class EditProductAction implements Action {
-    private static final String ACTION_NAME = "Edit Product";
+    private static final String ACTION_NAME = "Edit product";
 
     private final ProductService productService;
 

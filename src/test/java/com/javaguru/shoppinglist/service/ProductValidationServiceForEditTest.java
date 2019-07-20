@@ -1,28 +1,20 @@
 package com.javaguru.shoppinglist.service;
 
 import com.javaguru.shoppinglist.domain.Product;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
-import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(MockitoJUnitRunner.class)
+public class ProductValidationServiceForEditTest {
 
-public class ProductValidationServiceTest {
-    @Mock
-    private ProductUniquenessValidationRule productUniquenessValidationRule;
     @Mock
     private ProductNameValidationRule productNameValidationRule;
     @Mock
@@ -33,7 +25,7 @@ public class ProductValidationServiceTest {
 
     @Captor
     private ArgumentCaptor<Product> captor;
-    private ProductValidationService victim;
+    private ProductValidationServiceForEdit victim;
     private Product input = product();
 
     @Before
@@ -41,9 +33,8 @@ public class ProductValidationServiceTest {
         Set<ProductValidation> rules = new HashSet<>();
         rules.add(productDiscountValidationRule);
         rules.add(productNameValidationRule);
-        rules.add(productUniquenessValidationRule);
         rules.add(productPriceValidationRule);
-        victim = new ProductValidationService(rules);
+        victim = new ProductValidationServiceForEdit(rules);
     }
 
     @Test
@@ -51,7 +42,6 @@ public class ProductValidationServiceTest {
         victim.validate(input);
         verify(productDiscountValidationRule).validate(captor.capture());
         verify(productNameValidationRule).validate(captor.capture());
-        verify(productUniquenessValidationRule).validate(captor.capture());
         verify(productPriceValidationRule).validate(captor.capture());
 
         List<Product> listOfResults = captor.getAllValues();
@@ -63,7 +53,6 @@ public class ProductValidationServiceTest {
         victim.validate(input);
         verify(productDiscountValidationRule).validate(captor.capture());
         verify(productNameValidationRule).validate(captor.capture());
-        verify(productUniquenessValidationRule).validate(captor.capture());
         verify(productPriceValidationRule).validate(captor.capture());
 
         List<Product> listOfResults = captor.getAllValues();

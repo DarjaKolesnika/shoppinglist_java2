@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
@@ -47,7 +48,7 @@ class DefaultRepository implements RepositoryInterface {
 
     @Override
     public Optional<Product> findProductById(Long id) {
-        String query = "select * from products where id=" + id;
+        String query = "select * from products where product_id=" + id;
         List<Product> products = jdbcTemplate.query(query,
                 new BeanPropertyRowMapper(Product.class));
         if (!products.isEmpty()) {
@@ -60,13 +61,13 @@ class DefaultRepository implements RepositoryInterface {
     public boolean existsByName(String name) {
         String query = "SELECT CASE WHEN count(*)> 0 " +
                 "THEN true ELSE false END " +
-                "FROM products p where p.name= + name";
-        return jdbcTemplate.queryForObject(query, Boolean.class);
+                "FROM products p where p.name=?";
+        return jdbcTemplate.queryForObject(query, Boolean.class, name);
     }
 
     @Override
     public void delete(Product product) {
-        String query = "delete from products where id=" + product.getId();
+        String query = "delete from products where product_id=" + product.getId();
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(query);
             ps.executeUpdate(query);
@@ -76,7 +77,7 @@ class DefaultRepository implements RepositoryInterface {
 
     @Override
     public void saveEditedProduct(Long id, Product product) {
-        String query = "update products set name=?,description=?,price=?,discount=?,category=? where id=" + id;
+        String query = "update products set name=?,description=?,price=?,discount=?,category=? where product_id=" + id;
 
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection

@@ -11,30 +11,37 @@ import java.util.List;
 @Configuration
 public class ConsoleUIConfiguration {
 
-    private Action createProductAction;
-    private Action deleteProductAction;
-    private Action editProductAction;
-    private Action exitAction;
-    private Action findProductAction;
-
     @Autowired
-    public ConsoleUIConfiguration(Action createProductAction, Action deleteProductAction, Action editProductAction,
-                                  Action exitAction, Action findProductAction) {
-        this.createProductAction = createProductAction;
-        this.deleteProductAction = deleteProductAction;
-        this.editProductAction = editProductAction;
-        this.exitAction = exitAction;
-        this.findProductAction = findProductAction;
-    }
+    private Action createProductAction;
+    @Autowired
+    private Action deleteProductAction;
+    @Autowired
+    private Action editProductAction;
+    @Autowired
+    private Action exitAction;
+    @Autowired
+    private Action findProductAction;
+    @Autowired
+    private Action addToCartAction;
+    @Autowired
+    private Action createCartAction;
+    @Autowired
+    private Action deleteCartAction;
+    @Autowired
+    private Action findCartAction;
 
     @Bean
     ConsoleUI consoleUI() {
         List<Action> actions = new ArrayList<>();
         actions.add(createProductAction);
-        actions.add(deleteProductAction);
-        actions.add(exitAction);
-        actions.add(editProductAction);
         actions.add(findProductAction);
+        actions.add(deleteProductAction);
+        actions.add(editProductAction);
+        actions.add(createCartAction);
+        actions.add(findCartAction);
+        actions.add(addToCartAction);
+        actions.add(deleteCartAction);
+        actions.add(exitAction);
         return new ConsoleUI(actions);
     }
 }

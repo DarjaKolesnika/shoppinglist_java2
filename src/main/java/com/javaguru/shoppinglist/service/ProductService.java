@@ -4,6 +4,8 @@ import com.javaguru.shoppinglist.database.RepositoryInterface;
 import com.javaguru.shoppinglist.domain.Product;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.NoSuchElementException;
@@ -22,6 +24,7 @@ public class ProductService {
         this.validationServiceForEdit = validationServiceForEdit;
     }
 
+    @Transactional
     public Long createProduct(Product product) {
         validationService.validate(product);
         Product createdProduct = repository.insert(product);
@@ -33,6 +36,7 @@ public class ProductService {
                 .orElseThrow(() -> new NoSuchElementException("Product not found, id: " + id));
     }
 
+    @Transactional
     public Product editProduct(Product product, String userOption, String newFieldInfo) {
         Product copyOfProduct = new Product(product);
         switch (userOption) {

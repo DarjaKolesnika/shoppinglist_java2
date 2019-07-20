@@ -53,7 +53,7 @@ public class ProductServiceTest {
     @Test
     public void shouldDeleteProduct() {
         long productId = 1L;
-        victim.deleteProduct(victim.findProductById(1L));
+        victim.deleteProduct(victim.findProductById(productId));
         verify(repository, times(1)).delete(victim.findProductById(productId));
     }
 
@@ -65,6 +65,8 @@ public class ProductServiceTest {
                 .isInstanceOf(NoSuchElementException.class)
                 .hasMessage("Product not found, id: 0");
     }
+
+    //edit tests
 
     private Product product() {
         Product product = new Product();
