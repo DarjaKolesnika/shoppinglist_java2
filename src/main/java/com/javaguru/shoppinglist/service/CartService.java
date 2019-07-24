@@ -28,10 +28,11 @@ public class CartService {
                 .orElseThrow(() -> new NoSuchElementException("Cart not found, id: " + cartId));
     }
 
-    public void addProductToCart(Product product, Long cartId) {
+    public Cart addProductToCart(Product product, Long cartId) {
         Cart cart = findCartById(cartId);
         cart.getProducts().add(product);
         cartRepository.update(cart);
+        return cart;
     }
 
     public void deleteCart(Cart cart) {
