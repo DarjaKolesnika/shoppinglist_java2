@@ -17,6 +17,10 @@
 *.iml
 *.ipr
 
+### Maven ###
+log/
+target/
+
 ### NetBeans ###
 nbproject/private/
 build/

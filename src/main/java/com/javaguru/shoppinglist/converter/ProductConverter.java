@@ -5,7 +5,7 @@ import com.javaguru.shoppinglist.dto.ProductDTO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ProductToDTOConverter {
+public class ProductConverter {
     public Product convert(ProductDTO productDTO) {
         Product product = new Product();
         product.setId(productDTO.getId());

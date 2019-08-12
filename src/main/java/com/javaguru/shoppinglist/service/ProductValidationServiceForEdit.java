@@ -1,6 +1,7 @@
 package com.javaguru.shoppinglist.service;
 
-import com.javaguru.shoppinglist.domain.Product;
+import com.javaguru.shoppinglist.dto.ProductDTO;
+
 import java.util.Set;
 
 public class ProductValidationServiceForEdit {
@@ -10,7 +11,7 @@ public class ProductValidationServiceForEdit {
         this.validationRules = validationRules;
     }
 
-    public void validate(Product product) {
-        validationRules.forEach(s -> s.validate(product));
+    public void validate(ProductDTO productDTO) {
+        validationRules.forEach(s -> s.validate(productDTO));
     }
 }

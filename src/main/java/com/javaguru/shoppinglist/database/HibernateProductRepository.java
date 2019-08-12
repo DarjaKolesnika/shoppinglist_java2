@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Repository
-@Profile("hibernate")
 @Transactional
 public class HibernateProductRepository implements RepositoryInterface{
     private final SessionFactory sessionFactory;
@@ -24,6 +23,11 @@ public class HibernateProductRepository implements RepositoryInterface{
     public Product insert(Product product) {
         sessionFactory.getCurrentSession().save(product);
         return product;
+    }
+
+    @Override
+    public void update(Product product) {
+        sessionFactory.getCurrentSession().saveOrUpdate(product);
     }
 
     @Override

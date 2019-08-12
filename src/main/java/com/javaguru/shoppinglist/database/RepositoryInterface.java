@@ -4,7 +4,8 @@ import com.javaguru.shoppinglist.domain.Product;
 import java.util.Optional;
 
 public interface RepositoryInterface {
-    Product insert(Product task);
+    Product insert(Product product);
+    void update(Product product);
 
     Optional<Product> findProductById(Long id);
 

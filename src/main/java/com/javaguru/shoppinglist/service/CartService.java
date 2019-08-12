@@ -1,41 +1,43 @@
 package com.javaguru.shoppinglist.service;
 
+import com.javaguru.shoppinglist.converter.CartConverter;
 import com.javaguru.shoppinglist.database.HibernateCartRepository;
 import com.javaguru.shoppinglist.domain.Cart;
-import com.javaguru.shoppinglist.domain.Product;
+import com.javaguru.shoppinglist.dto.CartDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.NoSuchElementException;
 
 @Component
 public class CartService {
     private final HibernateCartRepository cartRepository;
-    private final CartValidationService cartValidationService;
+    private final CartConverter cartConverter;
 
     @Autowired
-    public CartService(HibernateCartRepository cartRepository, CartValidationService cartValidationService) {
+    public CartService(HibernateCartRepository cartRepository, CartConverter cartConverter) {
         this.cartRepository = cartRepository;
-        this.cartValidationService = cartValidationService;
+        this.cartConverter = cartConverter;
     }
 
-    public Long createCart(Cart cart) {
-        cartValidationService.validate(cart);
-        return cartRepository.save(cart);
+    @Transactional
+    public Long createCart(CartDTO cartDTO) {
+        Cart cart = cartConverter.convert(cartDTO);
+        cartRepository.save(cart);
+        return cart.getId();
     }
 
-    public Cart findCartById(Long cartId) {
-        return cartRepository.findCartById(cartId)
-                .orElseThrow(() -> new NoSuchElementException("Cart not found, id: " + cartId));
+    public CartDTO findCartById(Long id) {
+        return cartRepository.findCartById(id)
+                .map(cartConverter::convert)
+                .orElseThrow(() -> new NoSuchElementException("Cart not found, id: " + id));
     }
 
-    public Cart addProductToCart(Product product, Long cartId) {
-        Cart cart = findCartById(cartId);
-        cart.getProducts().add(product);
-        cartRepository.update(cart);
-        return cart;
-    }
 
-    public void deleteCart(Cart cart) {
-        cartRepository.delete(cart);
+    @Transactional
+    public void deleteCart(Long id) {
+        cartRepository.findCartById(id)
+                .ifPresent(cartRepository::delete);
     }
 }

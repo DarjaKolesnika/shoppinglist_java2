@@ -1,6 +1,6 @@
 package com.javaguru.shoppinglist.service;
 
-import com.javaguru.shoppinglist.domain.Product;
+import com.javaguru.shoppinglist.dto.ProductDTO;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -10,7 +10,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 
 public class ProductValidationServiceForEditTest {
@@ -22,11 +21,10 @@ public class ProductValidationServiceForEditTest {
     @Mock
     private ProductPriceValidationRule productPriceValidationRule;
 
-
     @Captor
-    private ArgumentCaptor<Product> captor;
+    private ArgumentCaptor<ProductDTO> captor;
     private ProductValidationServiceForEdit victim;
-    private Product input = product();
+    private ProductDTO input = productDTO();
 
     @Before
     public void setUp() {
@@ -39,31 +37,21 @@ public class ProductValidationServiceForEditTest {
 
     @Test
     public void shouldValidate() {
-        victim.validate(input);
-        verify(productDiscountValidationRule).validate(captor.capture());
+        victim.validate(productDTO());
         verify(productNameValidationRule).validate(captor.capture());
+        verify(productDiscountValidationRule).validate(captor.capture());
         verify(productPriceValidationRule).validate(captor.capture());
 
-        List<Product> listOfResults = captor.getAllValues();
-        listOfResults.forEach(product -> assertEquals(input, product));
+        List<ProductDTO> resultList = captor.getAllValues();
+        assertThat(resultList).containsOnly(productDTO());
     }
 
-    @Test
-    public void shouldValidate2() {
-        victim.validate(input);
-        verify(productDiscountValidationRule).validate(captor.capture());
-        verify(productNameValidationRule).validate(captor.capture());
-        verify(productPriceValidationRule).validate(captor.capture());
 
-        List<Product> listOfResults = captor.getAllValues();
-        assertThat(listOfResults).containsOnly(input);
-    }
-
-    private Product product() {
-        Product product = new Product();
-        product.setId(0L);
-        product.setDescription("TEST_DESCRIPTION");
-        product.setName("TEST_NAME");
-        return product;
+    private ProductDTO productDTO() {
+        ProductDTO productDTO = new ProductDTO();
+        productDTO.setId(0L);
+        productDTO.setDescription("TEST_DESCRIPTION");
+        productDTO.setName("TEST_NAME");
+        return productDTO;
     }
 }

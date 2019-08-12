@@ -6,7 +6,8 @@ import org.springframework.stereotype.Repository;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-
+/* Old version
+********
 @Repository
 @Profile({"map"})
 public class ProductRepository implements RepositoryInterface {
@@ -36,3 +37,4 @@ public class ProductRepository implements RepositoryInterface {
                 .anyMatch(product -> product.getName().equalsIgnoreCase(name));
     }
 }
+*/

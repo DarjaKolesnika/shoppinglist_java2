@@ -5,7 +5,7 @@ import com.javaguru.shoppinglist.dto.CartDTO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CartToDTOConverter{
+public class CartConverter {
     public CartDTO convert(Cart cart) {
         CartDTO cartDTO = new CartDTO();
         cartDTO.setId(cart.getId());

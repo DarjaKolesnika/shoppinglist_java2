@@ -1,8 +1,10 @@
 package com.javaguru.shoppinglist.service;
 
+import com.javaguru.shoppinglist.converter.CartConverter;
 import com.javaguru.shoppinglist.database.HibernateCartRepository;
 import com.javaguru.shoppinglist.domain.Cart;
-import com.javaguru.shoppinglist.domain.Product;
+import com.javaguru.shoppinglist.dto.CartDTO;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -10,7 +12,6 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import java.math.BigDecimal;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -24,30 +25,43 @@ public class CartServiceTest  {
     @Mock
     private HibernateCartRepository repository;
     @Mock
-    private CartValidationService carttValidationService;
+    private CartConverter cartConverter;
     @InjectMocks
     private CartService victim;
     @Captor
-    private ArgumentCaptor<Cart> cartCaptor;
+    private ArgumentCaptor<CartDTO> cartCaptor;
 
     @Test
     public void shouldCreateCartSuccessfully() {
+        CartDTO cartDTO = cartDTO();
         Cart cart = cart();
+        when(cartConverter.convert(cartDTO)).thenReturn(cart);
         when(repository.save(cart)).thenReturn(cart.getId());
-        Long result = victim.createCart(cart);
-        verify(carttValidationService).validate(cartCaptor.capture());
-        Cart captorResult = cartCaptor.getValue();
-        assertEquals(captorResult, cart);
-        assertEquals(cart.getId(), result);
+
+        Long result = victim.createCart(cartDTO);
+        Assertions.assertThat(cart.getId()).isEqualTo(result);
     }
 
     @Test
     public void shouldFindCart() {
         when(repository.findCartById(1L)).thenReturn(Optional.ofNullable(cart()));
-        Cart result = victim.findCartById(1L);
-        assertEquals(cart(), result);
+        when(cartConverter.convert(cart())).thenReturn(cartDTO());
+
+        CartDTO result = victim.findCartById(1L);
+        Assertions.assertThat(result).isEqualTo(cartDTO());
     }
-    //add products, delete method tests
+
+    @Test
+    public void shouldDeleteCart() {
+        long id = 1L;
+        victim.deleteCart(id);
+
+        when(repository.findCartById(1L)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> victim.findCartById(1L))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessage("Cart not found, id: 1");
+    }
 
     @Test
     public void shouldThrowExceptionCartWasNotFound() {
@@ -63,5 +77,12 @@ public class CartServiceTest  {
         cart.setName("test");
         cart.setId(1L);
         return cart;
+    }
+
+    private CartDTO cartDTO() {
+        CartDTO cartDTO = new CartDTO();
+        cartDTO.setName("test");
+        cartDTO.setId(1L);
+        return cartDTO;
     }
 }

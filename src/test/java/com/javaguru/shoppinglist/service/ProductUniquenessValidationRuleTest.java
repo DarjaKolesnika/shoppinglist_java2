@@ -2,6 +2,7 @@ package com.javaguru.shoppinglist.service;
 
 import com.javaguru.shoppinglist.database.RepositoryInterface;
 import com.javaguru.shoppinglist.domain.Product;
+import com.javaguru.shoppinglist.dto.ProductDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -17,29 +18,29 @@ public class ProductUniquenessValidationRuleTest {
     private RepositoryInterface productRepository;
     @InjectMocks
     private ProductUniquenessValidationRule victim;
-    private Product product = product();
+    private ProductDTO productDTO = productDTO();
 
     @Test
     public void shouldThrowException() {
-        when(productRepository.existsByName(product.getName()))
+        when(productRepository.existsByName(productDTO.getName()))
                 .thenReturn(true);
-        assertThatThrownBy(() -> victim.validate(product()))
+        assertThatThrownBy(() -> victim.validate(productDTO()))
                 .isInstanceOf(ValidationException.class)
                 .hasMessage("Product must be unique, please choose another name");
     }
     @Test
     public void shouldValidateSuccess() {
-        when(!productRepository.existsByName(product.getName()))
+        when(!productRepository.existsByName(productDTO.getName()))
                 .thenReturn(false);
-        victim.validate(product());
+        victim.validate(productDTO());
     }
 
-    private Product product() {
-        Product product = new Product();
-        product.setId(0L);
-        product.setDescription("TEST_DESCRIPTION");
-        product.setName("TEST_NAME");
-        return product;
+    private ProductDTO productDTO() {
+        ProductDTO productDTO = new ProductDTO();
+        productDTO.setId(0L);
+        productDTO.setDescription("TEST_DESCRIPTION");
+        productDTO.setName("TEST_NAME");
+        return productDTO;
     }
 }
 

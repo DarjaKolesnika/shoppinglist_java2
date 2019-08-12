@@ -1,11 +1,19 @@
 package com.javaguru.shoppinglist.dto;
 
 import com.javaguru.shoppinglist.domain.Category;
+import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class ProductDTO {
+    @NotNull(groups = {Update.class})
+    @Null(groups = {Create.class})
     private Long id;
+    @NotEmpty(groups = {Update.class, Create.class}, message = "Product name must not be empty.")
     private String name;
     private String description;
     private BigDecimal price;
@@ -80,5 +88,45 @@ public class ProductDTO {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductDTO that = (ProductDTO) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(price, that.price) &&
+                Objects.equals(discount, that.discount) &&
+                Objects.equals(cartId, that.cartId) &&
+                category == that.category;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description, price, discount, cartId, category);
+    }
+
+    @Override
+    public String toString() {
+        return "ProductDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", discount=" + discount +
+                ", cartId=" + cartId +
+                ", category=" + category +
+                '}';
+    }
+
+    public interface Update {
+
+    }
+
+    public interface Create {
+
     }
 }
