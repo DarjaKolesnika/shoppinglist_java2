@@ -1,6 +1,6 @@
 package com.javaguru.shoppinglist.service;
 
-import com.javaguru.shoppinglist.domain.Product;
+
 import com.javaguru.shoppinglist.dto.ProductDTO;
 import org.springframework.stereotype.Component;
 

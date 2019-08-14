@@ -4,8 +4,6 @@ import com.javaguru.shoppinglist.domain.Category;
 import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
-
-
 import java.math.BigDecimal;
 import java.util.Objects;
 

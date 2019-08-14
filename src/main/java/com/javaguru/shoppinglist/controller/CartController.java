@@ -1,15 +1,12 @@
 package com.javaguru.shoppinglist.controller;
 
-import com.javaguru.shoppinglist.domain.Cart;
 import com.javaguru.shoppinglist.dto.CartDTO;
-import com.javaguru.shoppinglist.dto.ProductDTO;
 import com.javaguru.shoppinglist.service.CartService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-
 import java.util.NoSuchElementException;
 
 @RestController

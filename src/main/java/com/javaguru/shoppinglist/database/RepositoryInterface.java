@@ -5,6 +5,7 @@ import java.util.Optional;
 
 public interface RepositoryInterface {
     Product insert(Product product);
+
     void update(Product product);
 
     Optional<Product> findProductById(Long id);
@@ -13,5 +14,4 @@ public interface RepositoryInterface {
 
     void delete(Product product);
 
-    void saveEditedProduct(Long id, Product product);
 }

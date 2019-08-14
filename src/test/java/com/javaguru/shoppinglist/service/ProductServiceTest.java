@@ -3,7 +3,6 @@ package com.javaguru.shoppinglist.service;
 import com.javaguru.shoppinglist.converter.ProductConverter;
 import com.javaguru.shoppinglist.database.RepositoryInterface;
 import com.javaguru.shoppinglist.domain.Product;
-
 import com.javaguru.shoppinglist.dto.ProductDTO;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -18,10 +17,8 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import static org.mockito.ArgumentMatchers.any;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
-import static org.junit.Assert.*;
 @RunWith(MockitoJUnitRunner.class)
 
 public class ProductServiceTest {

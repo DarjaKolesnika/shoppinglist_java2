@@ -1,5 +1,5 @@
 package com.javaguru.shoppinglist.service;
-import com.javaguru.shoppinglist.domain.Product;
+
 import com.javaguru.shoppinglist.dto.ProductDTO;
 
 public interface ProductValidation {

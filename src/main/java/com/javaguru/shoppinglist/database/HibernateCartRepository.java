@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
-
 import java.util.Optional;
 
 @Repository

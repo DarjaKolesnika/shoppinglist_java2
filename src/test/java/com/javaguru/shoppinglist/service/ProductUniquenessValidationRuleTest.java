@@ -1,14 +1,12 @@
 package com.javaguru.shoppinglist.service;
 
 import com.javaguru.shoppinglist.database.RepositoryInterface;
-import com.javaguru.shoppinglist.domain.Product;
 import com.javaguru.shoppinglist.dto.ProductDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import static org.junit.Assert.*;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)

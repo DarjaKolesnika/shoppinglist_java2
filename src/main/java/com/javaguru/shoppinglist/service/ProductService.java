@@ -7,7 +7,6 @@ import com.javaguru.shoppinglist.dto.ProductDTO;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.NoSuchElementException;
 
 @Service
@@ -42,6 +41,7 @@ public class ProductService {
 
     public void updateProduct(ProductDTO productDTO) {
         Product product = productConverter.convert(productDTO);
+        validationServiceForEdit.validate(productDTO);
         repository.update(product);
     }
 

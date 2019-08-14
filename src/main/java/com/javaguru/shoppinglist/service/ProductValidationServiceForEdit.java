@@ -1,7 +1,6 @@
 package com.javaguru.shoppinglist.service;
 
 import com.javaguru.shoppinglist.dto.ProductDTO;
-
 import java.util.Set;
 
 public class ProductValidationServiceForEdit {

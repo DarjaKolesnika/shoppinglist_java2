@@ -1,7 +1,6 @@
 package com.javaguru.shoppinglist.service;
 
 import com.javaguru.shoppinglist.database.RepositoryInterface;
-import com.javaguru.shoppinglist.domain.Product;
 import com.javaguru.shoppinglist.dto.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

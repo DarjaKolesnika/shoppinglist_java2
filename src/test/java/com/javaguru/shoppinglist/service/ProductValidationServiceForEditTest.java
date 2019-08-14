@@ -46,7 +46,6 @@ public class ProductValidationServiceForEditTest {
         assertThat(resultList).containsOnly(productDTO());
     }
 
-
     private ProductDTO productDTO() {
         ProductDTO productDTO = new ProductDTO();
         productDTO.setId(0L);
