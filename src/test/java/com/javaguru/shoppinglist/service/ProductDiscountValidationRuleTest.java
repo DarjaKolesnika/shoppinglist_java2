@@ -39,7 +39,15 @@ public class ProductDiscountValidationRuleTest {
     }
 
     @Test
-    public void shouldThrowProductValidationException() {
+    public void shouldThrowProductValidationExceptionIfDiscountIsLessThanZero() {
+        input = productDTO2(new BigDecimal(-9));
+        expectedException.expect(ValidationException.class);
+        expectedException.expectMessage("Product discount does not match the requirements – it should not be less than 0");
+        victim.validate(input);
+    }
+
+    @Test
+    public void shouldThrowProductValidationExceptionProductDiscountIsNull() {
         input = productDTO(null);
         assertThatThrownBy(() -> victim.validate(input))
                 .hasMessage("Product discount must be not null.");
@@ -64,4 +72,5 @@ public void shouldValidateSuccess() {
         productDTO2.setDiscount(discount);
         return productDTO2;
     }
+
 }
