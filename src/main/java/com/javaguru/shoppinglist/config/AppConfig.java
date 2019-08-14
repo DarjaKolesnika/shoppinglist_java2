@@ -21,41 +21,6 @@ import java.util.*;
 @EnableTransactionManagement
 public class AppConfig {
 
-    private ProductNameValidationRule productNameValidationRule;
-    private ProductPriceValidationRule productPriceValidationRule;
-    private ProductDiscountValidationRule productDiscountValidationRule;
-    private ProductUniquenessValidationRule productUniquenessValidationRule;
-
-    @Lazy
-    @Autowired
-    public AppConfig(ProductNameValidationRule productNameValidationRule, ProductPriceValidationRule
-            productPriceValidationRule, ProductDiscountValidationRule productDiscountValidationRule, ProductUniquenessValidationRule
-                             productUniquenessValidationRule) {
-        this.productNameValidationRule = productNameValidationRule;
-        this.productPriceValidationRule = productPriceValidationRule;
-        this.productDiscountValidationRule = productDiscountValidationRule;
-        this.productUniquenessValidationRule = productUniquenessValidationRule;
-    }
-
-    @Bean
-    ProductValidationService productValidationService() {
-        Set<ProductValidation> validationRules = new HashSet<>();
-        validationRules.add(productNameValidationRule);
-        validationRules.add(productDiscountValidationRule);
-        validationRules.add(productUniquenessValidationRule);
-        validationRules.add(productPriceValidationRule);
-        return new ProductValidationService(validationRules);
-    }
-
-    @Bean("validation for edit")
-    ProductValidationServiceForEdit productValidationServiceForEdit() {
-        Set<ProductValidation> validationRulesForEdit = new HashSet<>();
-        validationRulesForEdit.add(productNameValidationRule);
-        validationRulesForEdit.add(productDiscountValidationRule);
-        validationRulesForEdit.add(productPriceValidationRule);
-        return new ProductValidationServiceForEdit(validationRulesForEdit);
-    }
-
     @Bean
     public DataSource dataSource(
             @Value("${jdbc.url}") String jdbcUrl,

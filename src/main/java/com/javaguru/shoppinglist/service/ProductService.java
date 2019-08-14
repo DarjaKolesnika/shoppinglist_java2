@@ -13,16 +13,13 @@ import java.util.NoSuchElementException;
 public class ProductService {
     private final RepositoryInterface repository;
     private final ProductValidationService validationService;
-    private final ProductValidationServiceForEdit validationServiceForEdit;
     private final ProductConverter productConverter;
 
     public ProductService(RepositoryInterface productRepository,
-                          ProductValidationService validationService, ProductConverter productConverter,
-                          @Qualifier("validation for edit") ProductValidationServiceForEdit validationServiceForEdit) {
+                          ProductValidationService validationService, ProductConverter productConverter) {
         this.repository = productRepository;
         this.validationService = validationService;
         this.productConverter = productConverter;
-        this.validationServiceForEdit = validationServiceForEdit;
     }
 
     @Transactional
@@ -41,7 +38,7 @@ public class ProductService {
 
     public void updateProduct(ProductDTO productDTO) {
         Product product = productConverter.convert(productDTO);
-        validationServiceForEdit.validate(productDTO);
+        validationService.validate(productDTO);
         repository.update(product);
     }
 

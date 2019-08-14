@@ -12,13 +12,16 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+
 import java.math.BigDecimal;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
+
 @RunWith(MockitoJUnitRunner.class)
 
 public class ProductServiceTest {
@@ -80,7 +83,15 @@ public class ProductServiceTest {
                 .hasMessage("Product not found, id: 0");
     }
 
-    //edit tests
+    @Test
+    public void shouldUpdateProduct() {
+        victim.updateProduct(productDTO());
+
+        verify(productValidationService).validate(productCaptor.capture());
+        ProductDTO captorResult = productCaptor.getValue();
+
+        Assertions.assertThat(captorResult).isEqualTo(productDTO());
+    }
 
     private ProductDTO productDTO() {
         ProductDTO productDTO = new ProductDTO();
