@@ -3,6 +3,8 @@ package com.javaguru.shoppinglist.service;
 import com.javaguru.shoppinglist.domain.Product;
 
 import static org.junit.Assert.*;
+
+import com.javaguru.shoppinglist.dto.ProductDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Spy;
@@ -23,8 +25,8 @@ public class ProductValidationTest {
 
     @Test
     public void shouldCheckNotNull() {
-        Product product = new Product();
+        ProductDTO productDTO = new ProductDTO();
 
-        victim.checkNotNull(product);
+        victim.checkNotNull(productDTO);
     }
 }

@@ -2,6 +2,7 @@ package com.javaguru.shoppinglist.service;
 
 import com.javaguru.shoppinglist.domain.Product;
 
+import com.javaguru.shoppinglist.dto.ProductDTO;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,11 +10,9 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,9 +31,9 @@ public class ProductValidationServiceTest {
 
 
     @Captor
-    private ArgumentCaptor<Product> captor;
+    private ArgumentCaptor<ProductDTO> captor;
     private ProductValidationService victim;
-    private Product input = product();
+    private ProductDTO input = productDTO();
 
     @Before
     public void setUp() {
@@ -54,7 +53,7 @@ public class ProductValidationServiceTest {
         verify(productUniquenessValidationRule).validate(captor.capture());
         verify(productPriceValidationRule).validate(captor.capture());
 
-        List<Product> listOfResults = captor.getAllValues();
+        List<ProductDTO> listOfResults = captor.getAllValues();
         listOfResults.forEach(product -> assertEquals(input, product));
     }
 
@@ -66,15 +65,15 @@ public class ProductValidationServiceTest {
         verify(productUniquenessValidationRule).validate(captor.capture());
         verify(productPriceValidationRule).validate(captor.capture());
 
-        List<Product> listOfResults = captor.getAllValues();
+        List<ProductDTO> listOfResults = captor.getAllValues();
         assertThat(listOfResults).containsOnly(input);
     }
 
-    private Product product() {
-        Product product = new Product();
-        product.setId(0L);
-        product.setDescription("TEST_DESCRIPTION");
-        product.setName("TEST_NAME");
-        return product;
+    private ProductDTO productDTO() {
+        ProductDTO productDTO = new ProductDTO();
+        productDTO.setId(0L);
+        productDTO.setDescription("TEST_DESCRIPTION");
+        productDTO.setName("TEST_NAME");
+        return productDTO;
     }
 }

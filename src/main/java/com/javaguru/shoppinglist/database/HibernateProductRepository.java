@@ -4,15 +4,14 @@ import com.javaguru.shoppinglist.domain.Product;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Optional;
 
 @Repository
-@Profile("hibernate")
 @Transactional
-public class HibernateProductRepository implements RepositoryInterface{
+public class HibernateProductRepository implements RepositoryInterface {
     private final SessionFactory sessionFactory;
 
     @Autowired
@@ -24,6 +23,11 @@ public class HibernateProductRepository implements RepositoryInterface{
     public Product insert(Product product) {
         sessionFactory.getCurrentSession().save(product);
         return product;
+    }
+
+    @Override
+    public void update(Product product) {
+        sessionFactory.getCurrentSession().saveOrUpdate(product);
     }
 
     @Override
@@ -47,11 +51,5 @@ public class HibernateProductRepository implements RepositoryInterface{
     public void delete(Product product) {
         sessionFactory.getCurrentSession().delete(product);
     }
-
-    @Override
-    public void saveEditedProduct(Long id, Product product) {
-        sessionFactory.getCurrentSession().update(product);
-    }
-
 
 }
